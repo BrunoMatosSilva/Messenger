@@ -58,10 +58,11 @@ export const AuthForm = () => {
       }))
       .then((callback) => {
         if (callback?.error) {
-          toast.error('Invalid credentials!');
+          toast.error('Credenciais Inválida!');
         }
 
         if (callback?.ok) {
+          toast.success('Logado!')
           router.push('/conversations')
         }
       })
@@ -76,10 +77,11 @@ export const AuthForm = () => {
       })
       .then((callback) => {
         if (callback?.error) {
-          toast.error('Invalid credentials!');
+          toast.error('Credenciais Inválida!');
         }
 
         if (callback?.ok) {
+          toast.success('Logado!')
           router.push('/conversations')
         }
       })
@@ -93,10 +95,11 @@ export const AuthForm = () => {
     signIn(action, { redirect: false })
       .then((callback) => {
         if (callback?.error) {
-          toast.error('Invalid credentials!');
+          toast.error('Credenciais Inválida!');
         }
 
         if (callback?.ok) {
+          toast.success('Logado!')
           router.push('/conversations')
         }
       })
