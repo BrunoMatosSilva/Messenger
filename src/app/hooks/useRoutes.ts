@@ -25,8 +25,8 @@ export const useRoutes = () => {
     },
     {
       label: 'Sair',
-      href: '#',
       onClick: () => signOut(),
+      href: '/',
       icon: HiArrowLeftOnRectangle
     }
 ],[pathname, conversationId])

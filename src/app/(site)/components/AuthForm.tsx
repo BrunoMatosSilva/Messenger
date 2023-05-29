@@ -21,7 +21,7 @@ export const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === 'authenticated'){
-      router.push('/users')
+      router.push('/conversations')
     }
   },[session?.status, router])
 
@@ -52,12 +52,21 @@ export const AuthForm = () => {
 
     if (variant === 'REGISTER') {
       axios.post('/api/register', data)
-      .then(() => signIn('credentials', data))
-      .catch(() => toast.error('Algo deu errado!'))
-      .finally(() => {
-        setIsLoading(false)
-        toast.success('Logado!')
+      .then(() => signIn('credentials', {
+        ...data,
+        redirect: false,
+      }))
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error('Invalid credentials!');
+        }
+
+        if (callback?.ok) {
+          router.push('/conversations')
+        }
       })
+      .catch(() => toast.error('Algo deu errado!'))
+      .finally(() => setIsLoading(false))
     }
 
     if (variant === 'LOGIN') {
@@ -66,13 +75,12 @@ export const AuthForm = () => {
         redirect: false
       })
       .then((callback) => {
-        if(callback?.error) {
-          toast.error('Credenciais Inválida')
+        if (callback?.error) {
+          toast.error('Invalid credentials!');
         }
 
-        if(callback?.ok && !callback?.error) {
-          toast.success('Logado!')
-          router.push('/users')
+        if (callback?.ok) {
+          router.push('/conversations')
         }
       })
       .finally(() => setIsLoading(false))
@@ -83,18 +91,18 @@ export const AuthForm = () => {
     setIsLoading(true);
 
     signIn(action, { redirect: false })
-    .then((callback) => {
-      if (callback?.error) {
-        toast.error('Credenciais Inválida');
-      }
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error('Invalid credentials!');
+        }
 
-      if(callback?.ok && !callback?.error) {
-        toast.success('Logado!')
-        router.push('/users')
-      }
-    })
-    .finally(() => setIsLoading(false));
+        if (callback?.ok) {
+          router.push('/conversations')
+        }
+      })
+      .finally(() => setIsLoading(false));
   }
+
 
   return(
     <div

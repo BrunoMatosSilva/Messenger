@@ -3,7 +3,6 @@
 import { FullConversationType } from "@/app/types"
 import { useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import { Conversation, Message, User} from "@prisma/client"
 import { format } from "date-fns"
 import ptBR from 'date-fns/locale/pt-BR';
 import { useSession } from "next-auth/react"
@@ -29,7 +28,7 @@ export const ConversationBox = ({ data, selected }:ConversationBoxProps) => {
   const lastMessage = useMemo(() => {
     const messages = data.messages || [];
 
-    return messages[messages.length - 1]
+    return messages[messages.length -1]
   }, [data.messages])
 
   const userEmail = useMemo(() => {

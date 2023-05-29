@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 'use client'
 
 import { Fragment, useMemo, useState } from "react"
@@ -10,6 +12,7 @@ import { IoClose, IoTrash } from "react-icons/io5"
 import { Avatar } from "@/app/components/Avatar";
 import { ConfirmModal } from "./ConfirmModal";
 import { AvatarGroup } from "@/app/components/AvatarGroup";
+import { useActiveList } from "@/app/hooks/useActiveList";
 
 interface ProfileDrawerProps {
   isOpen: boolean;
@@ -22,6 +25,9 @@ interface ProfileDrawerProps {
 export const ProfileDrawer = ({isOpen, onClose, data}: ProfileDrawerProps) => {
   const otherUser = useOtherUser(data);
   const [confirmOpen, setConfirmOpen] = useState(false);
+
+  const { members } = useActiveList()
+  const isActive = members.indexOf(otherUser?.email!) !== -1;
 
   const joinedDate = useMemo(() => {
     return format(new Date(otherUser.createdAt), 'PPP', {locale: ptBR})
@@ -36,8 +42,8 @@ export const ProfileDrawer = ({isOpen, onClose, data}: ProfileDrawerProps) => {
       return `${data.users.length} membros`
     }
 
-    return 'Online'
-  },[data])
+    return isActive ? 'Online' : 'Offline';
+  },[data, isActive])
 
   return(
     <>

@@ -13,6 +13,7 @@ interface DesktopItemProps {
 }
 
 export const DesktopItem = ({ label, href, icon: Icon, active, onClick }:DesktopItemProps) => {
+
   const handleClick = () => {
     if (onClick) {
       return onClick();
